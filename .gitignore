@@ -1,3 +1,7 @@
+.DS_Store
+multi-user-todo-example/*
+collaborative-hierarchical-todo/*
+
 # Logs
 logs
 *.log
