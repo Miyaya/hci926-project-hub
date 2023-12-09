@@ -18,3 +18,9 @@ Complete project with good looking UI and a server
 ## Good-to-know
 ### Conflict-free Replicated Data Type (CRDTs)
 [About CRDTs](https://crdt.tech/)
+
+### SyncState
+[Official Document](https://syncstate.geekyants.com/docs/getting-started)
+> SyncState is a document-based state management library for React and JS apps.
+> In a SyncState store, all your data is contained in a single document. SyncState is based on JSON patches and uses these patches to update the document.
+> While SyncState can very well be used as a general purpose state management solution, we created it to make it easy to build realtime multi-user, undoable apps.
