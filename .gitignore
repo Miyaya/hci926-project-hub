@@ -1,6 +1,8 @@
 .DS_Store
 multi-user-todo-example/*
 collaborative-hierarchical-todo/*
+authentication/*
+todos-express-password/*
 
 # Logs
 logs

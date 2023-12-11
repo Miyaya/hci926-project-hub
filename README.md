@@ -1,6 +1,21 @@
 # hci926-project-hub
 collaborative project and task management platform
 
+## Execution
+### client side
+```
+npm i
+npm run start
+```
+### server side
+```
+cd server
+node index.js
+```
+
+## Some take-away for me
+1. Server-side rendered can't handle peer-to-peer collaborative behaviors; client-side rendered can't store data in persistence.
+
 ## Reference
 ### Collaborative Hierarchical Todo
 In this example, you can see there's hierarchy in todos
@@ -14,6 +29,12 @@ y.js provide serverless, client-side update; mongodb stores the persistent data
 Complete project with good looking UI and a server
 [SyncState](https://github.com/syncstate/multi-user-todo-example)
 
+### Authentication
+cookie based authentication with username and password
+[Next.js with-passport](https://github.com/vercel/next.js/tree/canary/examples/with-passport)
+
+todo web app using express and password
+[todos-express-password](https://github.com/passport/todos-express-password)
 
 ## Good-to-know
 ### Conflict-free Replicated Data Type (CRDTs)

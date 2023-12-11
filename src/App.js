@@ -1,42 +1,43 @@
-import React from "react";
-import "./App.css";
-import TodoItem from "./components/TodoItem";
-import AddTodo from "./components/AddTodo";
-import { useDoc } from "@syncstate/react";
+import React from 'react'
+import './App.css'
+import TodoItem from './components/TodoItem'
+import AddTodo from './components/AddTodo'
+import { useDoc } from '@syncstate/react'
 
 function App() {
-  const todoPath = "/todos";
-  const [todos, setTodos] = useDoc(todoPath);
+  const todoPath = '/todos'
+  const [todos, setTodos] = useDoc(todoPath)
 
   //generate unique id
-  const keyGenerator = () => "_" + Math.random().toString(36).substr(2, 9);
+  const keyGenerator = () => "_" + Math.random().toString(36).substr(2, 9)
   const addTodo = (todoItem) => {
     setTodos((todos) => {
-      let id = keyGenerator();
+      let id = keyGenerator()
       todos.push({
         id: id,
         caption: todoItem.caption,
         assignee: todoItem.assignee,
         completed: false,
         due: todoItem.due
-      });
-      document.getElementsByClassName("input-todo")[0].value = "";
-    });
-  };
+      })
+      document.getElementsByClassName("input-todo")[0].value = ""
+    })
+  }
 
   const todoList = todos.map((todoItem, index) => {
     return (
       <li key={todoItem.index} className="list-group-item">
         <TodoItem todo={todoItem} todoItemPath={todoPath + "/" + index} />
       </li>
-    );
-  });
+    )
+  })
 
   return (
     <div className="container mt-5">
       <h2 className="text-center text-white">
         Welcome to Project Hub!
       </h2>
+      <a href="login">login</a>
       <div className="row justify-content-center mt-5">
         <div className="col-md-8">
           <div className="card-hover-shadow-2x mb-3 card">
@@ -60,4 +61,4 @@ function App() {
   );
 }
 
-export default App;
+export default App

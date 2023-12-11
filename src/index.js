@@ -1,23 +1,41 @@
-import React from "react";
-import { createDocStore } from "@syncstate/core";
-import { Provider } from "@syncstate/react";
-import ReactDOM from "react-dom";
-import App from "./App.js";
-import "./index.css";
-import io from "socket.io-client";
-import reportWebVitals from "./reportWebVitals";
-import * as remote from "@syncstate/remote-client";
+import React from "react"
+import { createDocStore } from "@syncstate/core"
+import { Provider } from "@syncstate/react"
+import ReactDOM from "react-dom"
+import App from "./App.js"
+import "./index.css"
+import io from "socket.io-client"
+import reportWebVitals from "./reportWebVitals"
+import * as remote from "@syncstate/remote-client"
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom"
+import Login from "./components/Login/Login.js"
+import ErrorPage from "./error-page"
 
-const store = createDocStore({ todos: [] }, [remote.createInitializer()]);
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: "/login",
+    element: <Login />
+  }
+])
+
+const store = createDocStore({ todos: [] }, [remote.createInitializer()])
 
 // enable remote plugin
-store.dispatch(remote.enableRemote("/todos"));
+store.dispatch(remote.enableRemote("/todos"))
 
 // setting up socket connection with the server
-let socket = io.connect("http://localhost:8000");
+let socket = io.connect("http://localhost:8000")
 
 // send request to server to get patches everytime when page reloads
-socket.emit("fetchDoc", "/todos");
+socket.emit("fetchDoc", "/todos")
 
 //observe the changes in store state
 store.observe(
@@ -26,26 +44,26 @@ store.observe(
   (todos, change) => {
     if (!change.origin) {
       //send json patch to the server
-      socket.emit("change", "/todos", change);
+      socket.emit("change", "/todos", change)
     }
   },
   Infinity
-);
+)
 
 //get patches from server and dispatch
 socket.on("change", (path, patch) => {
-  // console.log(patch);
-  store.dispatch(remote.applyRemote(path, patch));
-});
+  // console.log(patch)
+  store.dispatch(remote.applyRemote(path, patch))
+})
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <RouterProvider router={router} />
   </Provider>,
   document.getElementById("root")
-);
+)
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+reportWebVitals()
