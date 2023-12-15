@@ -7,24 +7,7 @@ import "./index.css"
 import io from "socket.io-client"
 import reportWebVitals from "./reportWebVitals"
 import * as remote from "@syncstate/remote-client"
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom"
-import Login from "./components/Login/Login.js"
-import ErrorPage from "./error-page"
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-    errorElement: <ErrorPage />
-  },
-  {
-    path: "/login",
-    element: <Login />
-  }
-])
 
 const store = createDocStore({ todos: [] }, [remote.createInitializer()])
 
@@ -32,7 +15,7 @@ const store = createDocStore({ todos: [] }, [remote.createInitializer()])
 store.dispatch(remote.enableRemote("/todos"))
 
 // setting up socket connection with the server
-let socket = io.connect("http://localhost:8000")
+let socket = io.connect("http://192.168.1.18:8000")
 
 // send request to server to get patches everytime when page reloads
 socket.emit("fetchDoc", "/todos")
@@ -58,12 +41,9 @@ socket.on("change", (path, patch) => {
 
 ReactDOM.render(
   <Provider store={store}>
-    <RouterProvider router={router} />
+    <App socket={socket} />
   </Provider>,
   document.getElementById("root")
 )
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals()

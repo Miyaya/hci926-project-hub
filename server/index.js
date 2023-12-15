@@ -50,9 +50,17 @@ io.on('connection', async (socket) => {
   //patches recieved from the client
   socket.on('change', (path, change) => {
     change.origin = socket.id
-
+    // console.log(change)
     //resolves conflicts internally
     remote.processChange(socket.id, path, change)
+  })
+
+  socket.on('login', (username) => {
+    // Broadcast the username to all connected clients
+    // io.emit('userLoggedIn', { username, socketId: socket.id })
+
+    // Login as different users/clients
+    socket.emit('userLoggedIn', { username, socketId: socket.id })
   })
 
   const dispose = remote.onChangeReady(socket.id, (path, change) => {
