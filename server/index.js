@@ -22,13 +22,6 @@ app.use(cors(corsOptions))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.post('/api/login', (req, res) => {
-  const { username } = req.body // parse username
-
-  res.json({ success: true, message: `Welcome, ${username}!` })
-})
-
-
 const io = socket(server)
 const projectId = uuidv4() //generate unique id
 
@@ -50,17 +43,16 @@ io.on('connection', async (socket) => {
   //patches recieved from the client
   socket.on('change', (path, change) => {
     change.origin = socket.id
-    // console.log(change)
-    //resolves conflicts internally
     remote.processChange(socket.id, path, change)
   })
 
   socket.on('login', (username) => {
+    console.log(username, 'login')
     // Broadcast the username to all connected clients
-    // io.emit('userLoggedIn', { username, socketId: socket.id })
+    io.emit('addUserList', { username: username, socketId: socket.id })
 
     // Login as different users/clients
-    socket.emit('userLoggedIn', { username, socketId: socket.id })
+    socket.emit('userLoggedIn', { username: username, socketId: socket.id })
   })
 
   const dispose = remote.onChangeReady(socket.id, (path, change) => {
@@ -69,5 +61,6 @@ io.on('connection', async (socket) => {
 
     //broadcast the pathes to other clients
     socket.broadcast.emit('change', path, change)
+    console.log('dispose', change)
   })
 })

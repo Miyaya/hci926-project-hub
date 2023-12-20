@@ -15,6 +15,7 @@ node index.js
 
 ## Some take-away for me
 1. Server-side rendered can't handle peer-to-peer collaborative behaviors; client-side rendered can't store data in persistence.
+2. Socket: `socket.emit` is to a single client but not `io.emit`; `io.emit` is more like `socket.broadcast.emit`. (note: here io means: `io=socket(server)`)
 
 ## Reference
 ### Collaborative Hierarchical Todo

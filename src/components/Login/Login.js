@@ -27,8 +27,7 @@ export default function Login({ socket }) {
     }
 
     return (
-        <div>
-            <h2>Login</h2>
+        <div >
             <input
                 type="text"
                 value={username}
@@ -36,6 +35,6 @@ export default function Login({ socket }) {
                 placeholder="Enter your username"
             />
             <button onClick={handleSubmit}>Submit</button>
-        </div>
+        </div >
     );
 }

@@ -1,6 +1,7 @@
 body {
   background-color: #3f937b;
 }
+
 .App {
   text-align: center;
 }
@@ -8,22 +9,27 @@ body {
 .checkbox {
   margin-left: -25px;
 }
+
 .caption {
   width: 300px;
 }
+
 .addText {
   width: 350px;
 }
+
 button {
   background-color: #61b9a0 !important;
   color: white !important;
 }
+
 .btn:focus,
 .btn:active {
   outline: none !important;
   box-shadow: none;
   border-color: #61b9a0 !important;
 }
+
 .input-todo:focus,
 .input-todo:active {
   outline: none !important;
@@ -35,6 +41,7 @@ button {
   .checkbox {
     margin-left: -35px;
   }
+
   .caption {
     width: 280px;
   }
@@ -56,4 +63,19 @@ button {
 
 todoTitle {
   width: "89%";
+}
+
+.login-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: rgb(4, 88, 16);
+  color: #fff;
+  text-decoration: none;
+  border: #fff;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.login-btn:hover {
+  background-color: rgb(164, 229, 174);
 }

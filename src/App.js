@@ -3,18 +3,27 @@ import './App.css'
 import TodoItem from './components/TodoItem'
 import AddTodo from './components/AddTodo'
 import { useDoc } from '@syncstate/react'
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Login from './components/Login/Login.js'
 
 function App({ socket }) {
   const todoPath = '/todos'
+  const usersPath = '/users'
   const [todos, setTodos] = useDoc(todoPath)
-  const [username, setUsername] = useState('')
+  const [users, setUsers] = useDoc(usersPath)
+  const [username, setUsername] = useState("")
 
   useEffect(() => {
-    socket.on('userLoggedIn', ({ username, socketId }) => {
-      console.log(socketId)
-      setUsername(username)
+    socket.on('userLoggedIn', (obj) => {
+      console.log(obj.username)
+      setUsername(obj.username)
+    })
+
+    socket.on('addUserList', (obj) => {
+      setUsers((users) => {
+        users.push(obj.username)
+      })
+      console.log(obj.username, users)
     })
 
     // Clean up the socket connection on component unmount
@@ -48,6 +57,15 @@ function App({ socket }) {
     )
   })
 
+  const userSet = Array.from(new Set(users))
+  const userList = userSet.map((user, index) => {
+    return (
+      <li key={user.index} className="list-group-item">
+        {user}
+      </li>
+    )
+  })
+
   return (
     <div className="container mt-5">
       <h2 className="text-center text-white">
@@ -62,7 +80,14 @@ function App({ socket }) {
               <p>Logged in as: {username}</p>
 
               <div className="row justify-content-center mt-5">
-                <div className="col-md-8">
+                <div className="col-md-3">
+                  <div className="overflow-auto" style={{ height: "auto", maxHeight: "300px" }}>
+                    <div className="position-static">
+                      <ul className=" list-group list-group-flush">{userList}</ul>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-6">
                   <div className="card-hover-shadow-2x mb-3 card">
                     <div className="card-header-tab card-header">
                       <div className="card-header-title font-size-lg text-capitalize font-weight-normal">
@@ -76,14 +101,14 @@ function App({ socket }) {
                     </div>
                   </div>
                 </div>
-                <div className="col-md-4">
+                <div className="col-md-3">
                   <AddTodo addTodo={addTodo} />
                 </div>
               </div>
             </>
           ) : (
             <>
-              <a href="/login">Login</a>
+              <a href="/login" className="login-btn">Login</a>
               <Routes>
                 <Route path="/login" element={<Login socket={socket} />} />
               </Routes>
